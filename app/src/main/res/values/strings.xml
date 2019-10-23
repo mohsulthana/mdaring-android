@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">mdaring</string>
+
+
+    <!--Sign up page-->
+    <string name="daftar_text">DAFTAR AKUN</string>
+    <string name="password_form_text">Password</string>
+    <string name="username_form_text">Username</string>
+    <string name="email_form_text">Email kamu</string>
+
+    <!--Welcome page-->
+    <string name="masuk_button_text">Masuk</string>
+    <string name="daftar_button_text">Daftar</string>
+    <string name="illustrator_image_text">Illustraton</string>
+    <string name="welcome_text">Selamat datang di MDaring!</string>
+    <string name="description_text">Mau kemana kamu hari ini? Pake MDaring aja! Driver MDaring siap menjemputmu.</string>
+    <string name="warning_text">Dengan masuk atau mendaftar, kamu menyetujui Ketentuan Layanan dan Kebijakan Privasi.</string>
+</resources>
