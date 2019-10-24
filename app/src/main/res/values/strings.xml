@@ -15,4 +15,9 @@
     <string name="welcome_text">Selamat datang di MDaring!</string>
     <string name="description_text">Mau kemana kamu hari ini? Pake MDaring aja! Driver MDaring siap menjemputmu.</string>
     <string name="warning_text">Dengan masuk atau mendaftar, kamu menyetujui Ketentuan Layanan dan Kebijakan Privasi.</string>
+
+    <!--Login page-->
+    <string name="welcome_view_text">Silahkan masuk dengan akun yang sudah kamu daftarkan</string>
+    <string name="lanjut">Lanjut</string>
+    <string name="daftar_description_text">Isi form dibawah ini untuk menikmati layanan MDaring!</string>
 </resources>

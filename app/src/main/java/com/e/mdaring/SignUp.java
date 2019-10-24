@@ -4,12 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.e.mdaring.Model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,9 +23,14 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SignUp extends AppCompatActivity {
 
-    // Firebase
+    private static final String TAG = "SignUp";
+
+    // Firebase Database
     FirebaseDatabase database;
     DatabaseReference users;
+
+    // Firebase Authentication
+    private FirebaseAuth mAuth;
 
     EditText editUsername, editPassword, editEmail;
     Button btnSignup;
@@ -30,9 +40,12 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        // Firebase
+        // Firebase Database
         database    = FirebaseDatabase.getInstance();
         users       = database.getReference("Users");
+
+        // Firebase Authentication
+        mAuth       = FirebaseAuth.getInstance();
 
         editUsername    = (EditText) findViewById(R.id.username);
         editEmail       = (EditText) findViewById(R.id.email);
@@ -43,27 +56,26 @@ public class SignUp extends AppCompatActivity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final User user = new User(editUsername.getText().toString(),
-                        editEmail.getText().toString(),
-                        editPassword.getText().toString());
-
-                users.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.child(user.getUsername()).exists()) {
-                            Toast.makeText(SignUp.this, "Username is already exist", Toast.LENGTH_SHORT).show();
-                        } else {
-                            users.child(user.getUsername()).setValue(user);
-                            Toast.makeText(SignUp.this, "User registered!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // add custom execution
-                    }
-                });
+                SignUp();
             }
         });
+    }
+
+    private void SignUp() {
+        String mail        = editEmail.getText().toString();
+        String pass        = editPassword.getText().toString();
+
+        mAuth.createUserWithEmailAndPassword(mail, pass)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(SignUp.this, "Account created", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(SignUp.this, "Account failed created", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }
